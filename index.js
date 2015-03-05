@@ -1,3 +1,5 @@
+// Codepath Project 2: Dropbox Clone
+
 let express = require('express')
 let fs = require('fs')
 let path = require('path')
@@ -113,27 +115,29 @@ function sendHeaders(req, res, next) {
 
 // Test commands
 
-// Head
+// GET
+// curl -v http://127.0.0.1:8000/index.js -X GET
+
+// HEAD
 //curl -v http://127.0.0.1:8000/index.js --head
 
-// Delete
+// DELETE
 //touch test.js
 //curl -v http://127.0.0.1:8000/test.js -X DELETE
 //cat test.js
-
 // mkdir test
 // curl -v http://127.0.0.1:8000/test -X DELETE
 // cat test
 
-// Put
-// curl -v http://127.0.0.1:8000/test -X PUT -d "Hello World"
+// PUT
+// curl -v http://127.0.0.1:8000/foo -X PUT
+// curl -v http://127.0.0.1:8000/foo/bar.js -X PUT -d "Hello World"
+// curl -v http://127.0.0.1:8000/foo -X DELETE
 
 // POST
-// curl -v http://127.0.0.1:8000/test/foo.js -X POST -d "Hello World"
-//touch test/foo.js
-// curl -v http://127.0.0.1:8000/test/foo.js -X POST -d "asdf"
-
-
-
-
-
+// curl -v http://127.0.0.1:8000/foo -X POST
+// curl -v http://127.0.0.1:8000/foo/bar.js -X POST
+// touch foo/bar.js
+// curl -v http://127.0.0.1:8000/foo/bar.js -X POST -d "Hello World"
+// touch foo/bar.js
+// curl -v http://127.0.0.1:8000/foo/bar.js -X POST -d "asdf"
