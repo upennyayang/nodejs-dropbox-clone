@@ -29,7 +29,7 @@ app.get('*', setFileMeta, sendHeaders, (req, res) => {
         return
     }
 
-    fs.creatReadStream(req.filePath).pipe(res)
+    fs.createReadStream(req.filePath).pipe(res)
 })
 
 app.head('*', setFileMeta, sendHeaders, (req, res) => res.end())
@@ -65,7 +65,7 @@ app.post('*', setFileMeta, setDirDetails, (req, res, next) => {
       if(!req.stat) return res.send(405, 'File does not exists')
       if(req.isDir) return res.send(405, 'Path is a directory')
 
-      await fs.promise.truncate(req.dirPath, 0)
+      await fs.promise.truncate(req.filePath, 0)
       req.pipe(fs.createWriteStream(req.filePath))
       res.end()
     }().catch(next)
@@ -73,8 +73,6 @@ app.post('*', setFileMeta, setDirDetails, (req, res, next) => {
 })
 
 function setDirDetails(req, res, next) {
-    if(req.stat) return res.send(405, 'File exists')
-
     let filePath = req.filePath
     let endsWithSlash = filePath.charAt(filePath.length - 1) === path.sep
     let hasExtension = path.extname(filePath) !== ''
@@ -107,7 +105,7 @@ function sendHeaders(req, res, next) {
         }
 
         //file
-        res.setHeader('Content-Length', res.stat.size)
+        res.setHeader('Content-Length', req.stat.size)
         let contentType = mime.contentType(path.extname(req.filePath))
         res.setHeader('Content-Type', contentType)
     }(), next)
